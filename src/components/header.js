@@ -46,8 +46,8 @@ const useStyles = makeStyles(theme => ({
 const links = [
   ["/connection-card", "Connection Card", EmojiPeopleIcon],
   ["/groups", "Groups", GroupIcon],
-  // ["/giving", "Giving", PaymentIcon],
-  ["/resources", "Resources", LocalLibraryIcon],
+  ["/giving", "Giving", PaymentIcon],
+  ["https://wpcc.church/tools", "Resources", LocalLibraryIcon, true],
   ["https://wpcc.church/talks", "Sermons", ViewAgendaIcon, true],
   ["/prayer-request", "Get Prayer", ChatBubbleIcon],
 ]
@@ -105,8 +105,7 @@ const DrawerLinks = ({ toggle, classes }) => (
           </ListItemIcon>
           <ListItemText>
             {isExternal ? (
-              <Link href={to} target="_blank">
-                {" "}
+              <Link href={to} target="_blank" rel="noopener noreferrer">
                 {label}
               </Link>
             ) : (
@@ -120,24 +119,40 @@ const DrawerLinks = ({ toggle, classes }) => (
 )
 
 const Links = ({ pathname }) => {
-  return links.map(([to, label]) => (
+  return links.map(([to, label, _, isExternal]) => (
     <Button
       key={to}
       style={{
         padding: 12,
       }}
     >
-      <Link
-        style={{
-          color: "#fff",
-          fontSize: "1.1rem",
-          fontWeight: pathname === to ? "bold" : "normal",
-        }}
-        underline="none"
-        to={to}
-      >
-        {label}
-      </Link>
+      {isExternal ? (
+        <Link
+          to={to}
+          target="_blank"
+          style={{
+            color: "#fff",
+            fontSize: "1.1rem",
+            fontWeight: pathname === to ? "bold" : "normal",
+          }}
+          underline="none"
+          rel="noopener noreferrer"
+        >
+          {label}
+        </Link>
+      ) : (
+        <Link
+          to={to}
+          style={{
+            color: "#fff",
+            fontSize: "1.1rem",
+            fontWeight: pathname === to ? "bold" : "normal",
+          }}
+          underline="none"
+        >
+          {label}
+        </Link>
+      )}
     </Button>
   ))
 }

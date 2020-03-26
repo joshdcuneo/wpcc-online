@@ -5,7 +5,7 @@ module.exports = {
     author: `@joshdcuneo`,
     youtubeLink:
       "https://www.youtube.com/embed/videoseries?list=PLJbXzmMjnMZKGPNzDb2qpyvacVYTui2n9",
-    bibleReading: "bible/111/ISA.10.NIV",
+    bibleReading: "bible/111/ISA.9.NIV",
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -30,7 +30,7 @@ module.exports = {
         background_color: `#663399`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `src/images/logo_web.jpg`, // This path is relative to the root of the site.
+        icon: `src/images/wpcc_logo_web.jpg`, // This path is relative to the root of the site.
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
