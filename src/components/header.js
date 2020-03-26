@@ -47,17 +47,12 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const links = [
-  ["https://wpcc.church/connection-card", "Connect", EmojiPeopleIcon, true],
+  ["https://wpcc.church/forms/connect", "Connect", EmojiPeopleIcon, true],
   ["/groups", "Groups", GroupIcon],
   ["/giving", "Giving", PaymentIcon],
   ["https://wpcc.church/tools", "Resources", LocalLibraryIcon, true],
   ["https://wpcc.church/talks", "Sermons", ViewAgendaIcon, true],
-  [
-    "https://wpcc.church/prayer-request",
-    "Request Prayer",
-    ChatBubbleIcon,
-    true,
-  ],
+  ["https://wpcc.church/forms/prayer", "Request Prayer", ChatBubbleIcon, true],
 ]
 
 const Header = ({ pathname }) => {

@@ -38,6 +38,7 @@ export default function GiveButton() {
       className="tithely-give-btn"
       data-church-id="1390250"
       disabled={!scriptLoaded}
+      style={{ fontSize: "1.1rem" }}
     >
       {scriptLoaded ? "Give Online" : <CircularProgress />}
     </Button>

@@ -1,8 +1,20 @@
 import React from "react"
 import Layout from "../components/layout"
-import { Container, Typography } from "@material-ui/core"
+import { Container, Typography, makeStyles } from "@material-ui/core"
 import JustJesus from "../components/content-container"
+import { Button, Link } from "gatsby-theme-material-ui"
+
+const useStyles = makeStyles(theme => ({
+  button: {
+    fontSize: "1.1rem",
+    color: "#fff",
+    marginTop: "2rem",
+    marginBottom: "4rem",
+  },
+  link: { color: "#fff" },
+}))
 export default function Groups() {
+  const classes = useStyles()
   return (
     <Layout>
       <JustJesus>
@@ -14,7 +26,11 @@ export default function Groups() {
             each other, practicing the way of Jesus as we put the truth into
             action and doing all of this in community.
           </Typography>
-          <Typography variant="body1" gutterBottom>
+          <Typography
+            variant="body1"
+            gutterBottom
+            style={{ marginBottom: "6rem" }}
+          >
             Being connected to other followers of Jesus in deep, honest,
             vulnerable, truthful, intimate, other-focused, self-giving
             relationships is essential <strong>especially</strong> in this
@@ -39,6 +55,19 @@ export default function Groups() {
             If you would like to find out more or connect with a house church
             you can introduce yourself below and we will be in touch soon.
           </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+          >
+            <Link
+              to="https://wpcc.church/forms/house-church"
+              className={classes.link}
+              target="_blank"
+            >
+              Connect with a House Church
+            </Link>
+          </Button>
           <Typography variant="h2">Grow Groups</Typography>
           <Typography variant="body1" gutterBottom>
             We also continue to meet mid week in variety of ways but the key one
@@ -52,6 +81,19 @@ export default function Groups() {
             If you would like to find out more or connect with a grow group you
             can introduce yourself below and we will be in touch soon.
           </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+          >
+            <Link
+              to="https://wpcc.church/forms/grow-group"
+              className={classes.link}
+              target="_blank"
+            >
+              Connect with a Grow Group
+            </Link>
+          </Button>
         </Container>
       </JustJesus>
     </Layout>
