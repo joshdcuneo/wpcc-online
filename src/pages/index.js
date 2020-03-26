@@ -8,11 +8,22 @@ import Bible from "../components/bible"
 
 const useStyles = makeStyles(theme => ({
   main: { flexGrow: 1, display: "flex" },
-  sidebar: { width: 350, display: "flex" },
+  sidebar: {
+    width: 350,
+    display: "flex",
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+      flex: "1 1 30%",
+    },
+  },
   wrapper: {
     display: "flex",
     flexDirection: "row",
     flexGrow: 1,
+    [theme.breakpoints.down("sm")]: {
+      flexDirection: "column",
+      flex: "1 1 1",
+    },
   },
 }))
 

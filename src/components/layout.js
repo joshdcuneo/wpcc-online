@@ -10,6 +10,7 @@ import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
 
 import Header from "./header"
+import { navHeight } from "../config"
 
 const Layout = ({ children, pathname }) => {
   const data = useStaticQuery(graphql`
@@ -33,9 +34,9 @@ const Layout = ({ children, pathname }) => {
       }}
     >
       <Header siteTitle={data.site.siteMetadata.title} pathname={pathname} />
-      <div style={{ display: "flex", flexGrow: 1 }}>
-        <main style={{ display: "flex", flexGrow: 1 }}>{children}</main>
-      </div>
+      <main style={{ display: "flex", flexGrow: 1, paddingTop: navHeight }}>
+        {children}
+      </main>
     </div>
   )
 }

@@ -20,6 +20,7 @@ import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople"
 import LocalLibraryIcon from "@material-ui/icons/LocalLibrary"
 import ViewAgendaIcon from "@material-ui/icons/ViewAgenda"
 import Drawer from "@material-ui/core/Drawer"
+import { navHeight } from "../config"
 
 const useStyles = makeStyles(theme => ({
   toolbar: {
@@ -41,6 +42,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   drawer: { width: 250 },
+  appBar: { height: navHeight },
 }))
 
 const links = [
@@ -65,7 +67,7 @@ const Header = ({ pathname }) => {
     setMenuOpen(prev => !prev)
   }
   return (
-    <AppBar position="static">
+    <AppBar position="fixed" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
         <Link to="/">
           <LogoFull style={{ width: 200, marginRight: "auto" }} />
