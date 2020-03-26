@@ -184,7 +184,7 @@ const Header = ({ pathname }) => {
           className={classes.alert}
           icon={false}
           action={
-            <Box classes={alert} className={classes.alertAction}>
+            <Box className={classes.alertAction}>
               <Button
                 onClick={handlePromptAction(0)}
                 variant="contained"
