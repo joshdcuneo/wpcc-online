@@ -22,7 +22,7 @@ export default function Groups() {
           <Typography variant="h1">Community @ WPCC</Typography>
           <Typography variant="body1" gutterBottom>
             For all of us at Woonona Pressy, community is a key part of
-            following Jesus. We want to be hearing the truth from God's word and
+            following Jesus. We want to be hearing the truth from God's Word and
             each other, practicing the way of Jesus as we put the truth into
             action and doing all of this in community.
           </Typography>
@@ -41,15 +41,15 @@ export default function Groups() {
             As we seek to care for each other and our community in response to
             the spread of COVID-19 church looks a little different. While we are
             not able to meet together physically it is important that we still
-            find ways to connect with God, hear from His word and be in
+            find ways to connect with God, hear from His Word and be in
             community under Him.
           </Typography>
           <Typography variant="body1" gutterBottom>
             We continue to gather as the people of God online. Join us on Sunday
-            as we sing praises and hear from Gods' word in our homes via service
-            playlists on our Youtube channel and this site and join eachother
+            as we sing praises and hear from God's Word in our homes via service
+            playlists on our Youtube channel and this site and join each other
             afterwards online or on the phone to reflect and pray together for
-            eachother, our community and the world.
+            each other, our community and the world.
           </Typography>
           <Typography variant="body1" gutterBottom>
             If you would like to find out more or connect with a house church
