@@ -1,2 +1,7 @@
 export const navHeight = "4rem"
 export const tithelyScript = "https://tithe.ly/widget/v3/give.js?3"
+export const connectCardLabel = "Connect Card"
+export const connectFormLink = "https://wpcc.church/forms/connect"
+export const toolsLink = "https://wpcc.church/tools"
+export const talksLink = "https://wpcc.church/talks"
+export const prayerFormLink = "https://wpcc.church/forms/prayer"
