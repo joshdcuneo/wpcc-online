@@ -31,6 +31,7 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down("sm")]: {
       display: "none",
     },
+    justifyContent: "flex-end",
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -46,12 +47,12 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const links = [
-  ["/connection-card", "Connection Card", EmojiPeopleIcon],
+  ["/connection-card", "Connect", EmojiPeopleIcon],
   ["/groups", "Groups", GroupIcon],
   ["/giving", "Giving", PaymentIcon],
   ["https://wpcc.church/tools", "Resources", LocalLibraryIcon, true],
   ["https://wpcc.church/talks", "Sermons", ViewAgendaIcon, true],
-  ["/prayer-request", "Get Prayer", ChatBubbleIcon],
+  ["/prayer-request", "Request Prayer", ChatBubbleIcon],
 ]
 
 const Header = ({ pathname }) => {
@@ -72,7 +73,7 @@ const Header = ({ pathname }) => {
         <Link to="/">
           <LogoFull style={{ width: 200, marginRight: "auto" }} />
         </Link>
-        <Grid direction="row" className={classes.menuItems}>
+        <Grid direction="row" className={classes.menuItems} container>
           <Links pathname={pathname} />
         </Grid>
         <IconButton
