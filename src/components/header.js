@@ -102,15 +102,17 @@ const links = [
 ]
 
 function useLocalStorage(key) {
-  const [value, _setValue] = useState(localStorage.getItem(key))
+  const [value, _setValue] = useState(localStorage && localStorage.getItem(key))
   useEffect(() => {
-    if (!value) {
+    if (!value && localStorage) {
       _setValue(localStorage.getItem(key))
     }
   }, [key, value])
   const setValue = newValue => {
-    _setValue(newValue)
-    localStorage.setItem(key, newValue)
+    if (localStorage) {
+      _setValue(newValue)
+      localStorage.setItem(key, newValue)
+    }
   }
   return [value, setValue]
 }
