@@ -1,11 +1,17 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
+    title: `WPCC Online`,
+    description: `WPCC Church - Online`,
+    author: `@joshdcuneo`,
+    youtubeLink:
+      "https://www.youtube.com/embed/videoseries?list=PLJbXzmMjnMZKGPNzDb2qpyvacVYTui2n9",
+    bibleReading: "bible/111/ISA.10.NIV",
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
+    {
+      resolve: `gatsby-theme-material-ui`,
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -24,7 +30,7 @@ module.exports = {
         background_color: `#663399`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+        icon: `src/images/logo_web.jpg`, // This path is relative to the root of the site.
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality

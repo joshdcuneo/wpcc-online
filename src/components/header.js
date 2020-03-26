@@ -1,35 +1,146 @@
-import { Link } from "gatsby"
+import { Link } from "gatsby-theme-material-ui"
 import PropTypes from "prop-types"
-import React from "react"
+import React, { useState } from "react"
+import LogoFull from "./logo-full"
+import AppBar from "@material-ui/core/AppBar"
+import Toolbar from "@material-ui/core/Toolbar"
+import List from "@material-ui/core/List"
+import ListItem from "@material-ui/core/ListItem"
+import Grid from "@material-ui/core/Grid"
+import ListItemText from "@material-ui/core/ListItemText"
+import ListItemIcon from "@material-ui/core/ListItemIcon"
+import IconButton from "@material-ui/core/IconButton"
+import Button from "@material-ui/core/Button"
+import { makeStyles } from "@material-ui/core/styles"
+import MenuIcon from "@material-ui/icons/Menu"
+import GroupIcon from "@material-ui/icons/Group"
+import PaymentIcon from "@material-ui/icons/Payment"
+import ChatBubbleIcon from "@material-ui/icons/ChatBubble"
+import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople"
+import LocalLibraryIcon from "@material-ui/icons/LocalLibrary"
+import ViewAgendaIcon from "@material-ui/icons/ViewAgenda"
+import Drawer from "@material-ui/core/Drawer"
 
-const Header = ({ siteTitle }) => (
-  <header
-    style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
-    }}
+const useStyles = makeStyles(theme => ({
+  toolbar: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  menuItems: {
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up("md")]: {
+      display: "none",
+    },
+  },
+  title: {
+    flexGrow: 1,
+  },
+  drawer: { width: 250 },
+}))
+
+const links = [
+  ["/connection-card", "Connection Card", EmojiPeopleIcon],
+  ["/groups", "Groups", GroupIcon],
+  // ["/giving", "Giving", PaymentIcon],
+  ["/resources", "Resources", LocalLibraryIcon],
+  ["https://wpcc.church/talks", "Sermons", ViewAgendaIcon, true],
+  ["/prayer-request", "Get Prayer", ChatBubbleIcon],
+]
+
+const Header = ({ pathname }) => {
+  const classes = useStyles()
+  const [menuOpen, setMenuOpen] = useState(false)
+  const toggle = event => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return
+    }
+    setMenuOpen(prev => !prev)
+  }
+  return (
+    <AppBar position="static">
+      <Toolbar className={classes.toolbar}>
+        <Link to="/">
+          <LogoFull style={{ width: 200, marginRight: "auto" }} />
+        </Link>
+        <Grid direction="row" className={classes.menuItems}>
+          <Links pathname={pathname} />
+        </Grid>
+        <IconButton
+          edge="start"
+          className={classes.menuButton}
+          color="inherit"
+          aria-label="menu"
+          onClick={toggle}
+        >
+          <MenuIcon />
+        </IconButton>
+      </Toolbar>
+      <Drawer open={menuOpen} anchor="left" onClose={() => setMenuOpen(false)}>
+        <DrawerLinks classes={classes} />
+      </Drawer>
+    </AppBar>
+  )
+}
+
+const DrawerLinks = ({ toggle, classes }) => (
+  <div
+    onClick={toggle}
+    onKeyDown={toggle}
+    role="presentation"
+    className={classes.drawer}
   >
-    <div
+    <List>
+      {links.map(([to, label, Icon, isExternal]) => (
+        <ListItem key={to}>
+          <ListItemIcon>
+            <Icon />
+          </ListItemIcon>
+          <ListItemText>
+            {isExternal ? (
+              <Link href={to} target="_blank">
+                {" "}
+                {label}
+              </Link>
+            ) : (
+              <Link to={to}>{label}</Link>
+            )}
+          </ListItemText>
+        </ListItem>
+      ))}
+    </List>
+  </div>
+)
+
+const Links = ({ pathname }) => {
+  return links.map(([to, label]) => (
+    <Button
+      key={to}
       style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
+        padding: 12,
       }}
     >
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
-        >
-          {siteTitle}
-        </Link>
-      </h1>
-    </div>
-  </header>
-)
+      <Link
+        style={{
+          color: "#fff",
+          fontSize: "1.1rem",
+          fontWeight: pathname === to ? "bold" : "normal",
+        }}
+        underline="none"
+        to={to}
+      >
+        {label}
+      </Link>
+    </Button>
+  ))
+}
 
 Header.propTypes = {
   siteTitle: PropTypes.string,
