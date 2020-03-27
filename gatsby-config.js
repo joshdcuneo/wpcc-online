@@ -3,9 +3,6 @@ module.exports = {
     title: `WPCC Online`,
     description: `WPCC Church - Online`,
     author: `@joshdcuneo`,
-    youtubeLink:
-      "https://www.youtube.com/embed/videoseries?list=PLJbXzmMjnMZKGPNzDb2qpyvacVYTui2n9",
-    bibleReading: "bible/111/ISA.9.NIV",
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
