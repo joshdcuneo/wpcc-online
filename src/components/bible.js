@@ -4,7 +4,7 @@ import { bibleReading } from "../config"
 export default function Youtube() {
   return (
     <iframe
-      style={{ height: "100%", flex: 1, width: 450 }}
+      style={{ height: "100%", flex: 1, width: 450, maxWidth: "100%" }}
       title="Bible Reading"
       src={"https://chop.bible.com/" + bibleReading}
       frameborder="0"
