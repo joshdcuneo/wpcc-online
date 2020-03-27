@@ -24,11 +24,11 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `gatsby-starter-default`,
-        short_name: `starter`,
+        name: `wpcc-online`,
+        short_name: `WPCC Online`,
         start_url: `/`,
-        background_color: `#663399`,
-        theme_color: `#663399`,
+        background_color: `#225b8b`,
+        theme_color: `#225b8b`,
         display: `minimal-ui`,
         icon: `src/images/wpcc_logo_web.jpg`, // This path is relative to the root of the site.
       },
