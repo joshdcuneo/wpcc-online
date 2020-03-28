@@ -51,15 +51,12 @@ const useStyles = makeStyles(theme => ({
     backgroundPosition: "center",
     backgroundSize: "contain",
   },
-  iconWrapper: {
+  iconWrapper: ({ hovered }) => ({
     height: 100,
     width: 100,
     position: "relative",
-    opacity: 0.8,
-    "&:hover": {
-      opacity: 1,
-    },
-  },
+    opacity: hovered ? 1 : 0.8,
+  }),
   icon1: {
     backgroundColor: "#fff",
     position: "absolute",
@@ -70,26 +67,24 @@ const useStyles = makeStyles(theme => ({
     width: 50,
     zIndex: 1,
   },
-  icon2: {
+  icon2: ({ hovered }) => ({
     height: 100,
     width: 100,
-    color: "black",
+    color: hovered ? "red" : "black",
     zIndex: 2,
     position: "absolute",
     top: "50%",
     right: "50%",
     transition: "all 100ms",
     transform: "translateX(50%) translateY(-50%)",
-    "&:hover": {
-      color: "red",
-    },
-  },
+  }),
 }))
 
 export default function Youtube() {
   const [showVideo, setShowVideo] = useState(false)
   const [iframeLoaded, setIframeLoaded] = useState(false)
-  const classes = useStyles({ iframeLoaded })
+  const [hovered, setHovered] = useState(false)
+  const classes = useStyles({ iframeLoaded, hovered })
   const data = useStaticQuery(graphql`
     query {
       image: file(relativePath: { eq: "placeholder.jpg" }) {
@@ -126,7 +121,12 @@ export default function Youtube() {
     )
   }
   return (
-    <button className={classes.button} onClick={() => setShowVideo(true)}>
+    <button
+      className={classes.button}
+      onClick={() => setShowVideo(true)}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
       <Img fluid={data.image.childImageSharp.fluid} className={classes.img}>
         <Icon className={classes.iconWrapper}>
           <div className={classes.icon1}></div>
