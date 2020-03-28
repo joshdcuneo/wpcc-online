@@ -8,8 +8,6 @@ export default function Bible() {
       title="Bible Reading"
       src={"https://chop.bible.com/" + bibleReading}
       frameBorder="0"
-      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-      allowFullScreen
     ></iframe>
   )
 }

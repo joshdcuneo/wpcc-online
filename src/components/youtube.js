@@ -1,12 +1,12 @@
-import React, { useState } from "react"
-import { youtubeLink } from "../config"
+import React, { useState, useRef, useEffect } from "react"
+import { youtubePlaylistId } from "../config"
 import Img from "gatsby-background-image"
 import { useStaticQuery, graphql } from "gatsby"
 import YouTubeIcon from "@material-ui/icons/YouTube"
 import Icon from "@material-ui/core/Icon"
 import { CircularProgress, makeStyles } from "@material-ui/core"
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   icon: {},
   videoWrapper: {
     height: "100%",
@@ -108,7 +108,7 @@ export default function Youtube() {
             />
           </div>
         )}
-        <iframe
+        {/* <iframe
           className={classes.iframe}
           title="Service Playlist Video"
           src={youtubeLink}
@@ -116,7 +116,11 @@ export default function Youtube() {
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
           onLoad={() => setIframeLoaded(true)}
-        ></iframe>
+        ></iframe> */}
+        <YoutubePlayer
+          onLoad={() => setIframeLoaded(true)}
+          className={classes.iframe}
+        />
       </div>
     )
   }
@@ -135,4 +139,44 @@ export default function Youtube() {
       </Img>
     </button>
   )
+}
+
+function YoutubePlayer({ onLoad, className }) {
+  const scriptMounted = useRef(false)
+  const [youtubeReady, setYoutubeReady] = useState(false)
+  const targetElement = useRef()
+  const playerRef = useRef()
+  useEffect(() => {
+    let timeoutId
+    if (!scriptMounted.current) {
+      global.onYouTubeIframeAPIReady = () => {
+        console.log("Youtube api ready")
+        setYoutubeReady(true)
+      }
+      const script = document.createElement("script")
+      script.src = "https://www.youtube.com/iframe_api"
+      document.body.appendChild(script)
+      scriptMounted.current = true
+    }
+    if (youtubeReady && Boolean(global.YT) && targetElement) {
+      const YT = global.YT
+      playerRef.current = new YT.Player(targetElement.current, {
+        events: {
+          onReady: () => {
+            console.log("Youtube player ready")
+            playerRef.current.playVideo()
+            timeoutId = setTimeout(() => onLoad(playerRef), 1000)
+          },
+        },
+        height: "100%",
+        width: "100%",
+        playerVars: {
+          listType: "playlist",
+          list: youtubePlaylistId,
+        },
+      })
+    }
+    return () => clearTimeout(timeoutId)
+  }, [onLoad, youtubeReady])
+  return <div ref={targetElement} className={className}></div>
 }
