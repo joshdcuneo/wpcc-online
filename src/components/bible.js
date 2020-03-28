@@ -9,7 +9,7 @@ export default function Youtube() {
       src={"https://chop.bible.com/" + bibleReading}
       frameborder="0"
       allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen
+      allowFullScreen
     ></iframe>
   )
 }
