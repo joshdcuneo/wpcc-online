@@ -7,9 +7,9 @@ export default function Youtube() {
       style={{ height: "100%", flex: 1, width: "100%" }}
       title="Service Playlist Video"
       src={youtubeLink}
-      frameborder="0"
+      frameBorder="0"
       allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen
+      allowFullScreen
     ></iframe>
   )
 }
