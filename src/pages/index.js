@@ -9,7 +9,7 @@ import Bible from "../components/bible"
 const useStyles = makeStyles(theme => ({
   main: { flexGrow: 1, display: "flex" },
   sidebar: {
-    width: 350,
+    width: 400,
     display: "flex",
     [theme.breakpoints.down("sm")]: {
       width: "100%",
