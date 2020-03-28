@@ -1,6 +1,6 @@
 import React from "react"
-import { youtubeLink } from "../config"
-
+import { youtubeLink, youtubePlaceholder } from "../config"
+import Img from "gatsby-image"
 export default function Youtube() {
   return (
     <iframe
