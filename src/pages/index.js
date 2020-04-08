@@ -7,9 +7,9 @@ import Youtube from "../components/youtube"
 import Bible from "../components/bible"
 
 const useStyles = makeStyles(theme => ({
-  main: { flexGrow: 1, display: "flex" },
+  main: { flexGrow: 1, display: "flex", width: "100%" },
   sidebar: {
-    width: 400,
+    width: 500,
     display: "flex",
     [theme.breakpoints.down("sm")]: {
       width: "100%",
