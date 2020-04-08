@@ -32,13 +32,10 @@ const useStyles = makeStyles(() => ({
     zIndex: 2,
     transform: props.iframeLoaded ? "translateX(0%)" : "translateX(200%)",
   }),
-  button: {
-    border: "none",
+  imageWrapper: {
     height: "100%",
     flex: 1,
     width: "100%",
-    margin: 0,
-    padding: 0,
     backgroundColor: "black",
   },
   img: {
@@ -108,15 +105,6 @@ export default function Youtube() {
             />
           </div>
         )}
-        {/* <iframe
-          className={classes.iframe}
-          title="Service Playlist Video"
-          src={youtubeLink}
-          frameBorder="0"
-          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          onLoad={() => setIframeLoaded(true)}
-        ></iframe> */}
         <YoutubePlayer
           onLoad={() => setIframeLoaded(true)}
           className={classes.iframe}
@@ -125,19 +113,26 @@ export default function Youtube() {
     )
   }
   return (
-    <button
-      className={classes.button}
+    <div
+      role="button"
+      className={classes.imageWrapper}
       onClick={() => setShowVideo(true)}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onKeyDown={() => setShowVideo(true)}
+      tabIndex="0"
     >
-      <Img fluid={data.image.childImageSharp.fluid} className={classes.img}>
+      <Img
+        fluid={data.image.childImageSharp.fluid}
+        className={classes.img}
+        style={{ width: "100%" }}
+      >
         <Icon className={classes.iconWrapper}>
           <div className={classes.icon1}></div>
           <YouTubeIcon className={classes.icon2} />
         </Icon>
       </Img>
-    </button>
+    </div>
   )
 }
 
