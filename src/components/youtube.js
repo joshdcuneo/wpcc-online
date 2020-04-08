@@ -37,6 +37,7 @@ const useStyles = makeStyles(() => ({
     flex: 1,
     width: "100%",
     backgroundColor: "black",
+    cursor: "pointer",
   },
   img: {
     height: "100%",
@@ -121,18 +122,8 @@ export default function Youtube() {
       onMouseLeave={() => setHovered(false)}
       onKeyDown={() => setShowVideo(true)}
       tabIndex="0"
-      style={{
-        height: "100%",
-        flex: 1,
-        width: "100%",
-        backgroundColor: "black",
-      }}
     >
-      <Img
-        fluid={data.image.childImageSharp.fluid}
-        className={classes.img}
-        style={{ width: "100%" }}
-      >
+      <Img fluid={data.image.childImageSharp.fluid} className={classes.img}>
         <Icon className={classes.iconWrapper}>
           <div className={classes.icon1}></div>
           <YouTubeIcon className={classes.icon2} />
