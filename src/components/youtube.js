@@ -121,6 +121,12 @@ export default function Youtube() {
       onMouseLeave={() => setHovered(false)}
       onKeyDown={() => setShowVideo(true)}
       tabIndex="0"
+      style={{
+        height: "100%",
+        flex: 1,
+        width: "100%",
+        backgroundColor: "black",
+      }}
     >
       <Img
         fluid={data.image.childImageSharp.fluid}
