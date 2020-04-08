@@ -173,6 +173,7 @@ function YoutubePlayer({ onLoad, className }) {
         playerVars: {
           listType: "playlist",
           list: youtubePlaylistId,
+          rel: 0,
         },
       })
     }
