@@ -85,9 +85,9 @@ export default function Youtube() {
   const classes = useStyles({ iframeLoaded, hovered })
   const data = useStaticQuery(graphql`
     query {
-      image: file(relativePath: { eq: "placeholder.jpg" }) {
+      image: file(relativePath: { eq: "placeholderImage.jpg" }) {
         childImageSharp {
-          fluid(maxWidth: 2000) {
+          fluid(maxWidth: 1800) {
             ...GatsbyImageSharpFluid
           }
         }

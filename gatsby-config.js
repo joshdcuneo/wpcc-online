@@ -7,9 +7,8 @@ module.exports = {
   plugins: [
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-netlify`,
-    {
-      resolve: `gatsby-theme-material-ui`,
-    },
+    `gatsby-theme-material-ui`,
+
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -37,8 +36,6 @@ module.exports = {
         trackingId: "UA-109815883-7",
       },
     },
-    // this (optional) plugin enables Progressive Web App + Offline functionality
-    // To learn more, visit: https://gatsby.dev/offline
-    `gatsby-plugin-remove-serviceworker`,
+    `gatsby-plugin-offline`,
   ],
 }
