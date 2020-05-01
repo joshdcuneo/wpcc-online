@@ -1,9 +1,9 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "wpcc-online",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "Church online for WPCC during COVID-19",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Josh Cuneo <joshdcuneo@gmail.com>",
   "dependencies": {
     "@material-ui/core": "^4.9.7",
     "@material-ui/icons": "^4.9.1",
