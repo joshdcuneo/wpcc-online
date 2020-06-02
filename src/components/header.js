@@ -33,6 +33,7 @@ import MuiAlert from "@material-ui/lab/Alert"
 import Box from "@material-ui/core/Box"
 import PanToolIcon from "@material-ui/icons/PanTool"
 import { Icon } from "@material-ui/core"
+import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer"
 
 function Alert(props) {
   return (
@@ -93,12 +94,13 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 const links = [
+  ["/survey", "Survey", QuestionAnswerIcon],
   [connectFormLink, connectCardLabel, EmojiPeopleIcon, true],
   ["/groups", "Groups", GroupIcon],
   ["/giving", "Giving", PaymentIcon],
   [toolsLink, "Resources", LocalLibraryIcon, true],
   [talksLink, "Sermons", ViewAgendaIcon, true],
-  [prayerFormLink, "Request Prayer", ChatBubbleIcon, true],
+  [prayerFormLink, "Prayer", ChatBubbleIcon, true],
 ]
 
 function useLocalStorage(key) {

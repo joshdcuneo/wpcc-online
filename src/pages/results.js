@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import Layout from "../components/layout"
 import JustJesus from "../components/content-container"
 import { Button } from "gatsby-theme-material-ui"
@@ -35,13 +35,11 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     zIndex: 100,
     maxWidth: "calc(100vw - 40px)",
-    [theme.breakpoints.down("md")]: {
-      flexDirection: "column",
-    },
+    flexDirection: "column",
   },
   alertMessage: {
     display: "flex",
-    flexWrap: "wrap",
+    flexDirection: "column",
   },
   bold: {
     fontWeight: "bold",
@@ -53,9 +51,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     textAlign: "left",
   },
-  loading: {
-    marginTop: "6rem",
-  },
+
   italic: {
     fontStyle: "italic",
   },
@@ -65,23 +61,42 @@ export default function Results() {
   const [results, setResults] = useState(null)
   const [filter, setFilter] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
   const filteredResults = filterResults(results, filter)
   const normalizedResults = normalize(filteredResults)
-
+  const retries = useRef(0)
   useEffect(() => {
-    if (!results && !loading) {
-      setLoading(true)
+    let timeoutId
+
+    const load = () =>
       fetch("/.netlify/functions/paperform-submissions")
         .then(res => res.json())
         .then(data => {
           setResults(data)
           setLoading(false)
         })
+        .catch(() => {
+          retries.current = retries.current + 1
+          if (retries.current < 5) {
+            timeoutId = setTimeout(
+              () => setLoading(false),
+              retries.current * 1000
+            )
+          } else {
+            setError(true)
+            setLoading(false)
+          }
+        })
+    if (!results && !loading && !error) {
+      setLoading(true)
+      load()
     }
-  }, [loading, results])
+    return () => timeoutId && clearTimeout(timeoutId)
+  }, [loading, results, error])
 
   const isSmallScreen = useMediaQuery("(max-width: 600px)")
   const classes = useStyles()
+  console.log({ results, loading })
   return (
     <Layout>
       <JustJesus>
@@ -89,32 +104,6 @@ export default function Results() {
           <Typography variant="h2" gutterBottom>
             Connection Survey
           </Typography>
-          {Boolean(filter) && (
-            <Box className={classes.filterWrapper}>
-              <Alert severity="info" className={classes.alert}>
-                <AlertTitle>Filter</AlertTitle>
-                <div className={classes.alertMessage}>
-                  <span>
-                    <span className={classes.bold}>Q: </span>
-                    {filter.question}
-                  </span>
-                  <span>
-                    <span className={classes.bold}>A: </span>
-                    {filter.answer}
-                  </span>
-                </div>
-              </Alert>
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                onClick={() => setFilter(null)}
-                style={{ margin: 0 }}
-              >
-                Clear Filter
-              </Button>
-            </Box>
-          )}
           <Typography variant="body1" gutterBottom>
             Check back in here later if you like. As more results come in we
             will summarise them in more detail.
@@ -123,7 +112,36 @@ export default function Results() {
             You can click on any category in a graph to filter the response data
             by that category.
           </Typography>
-          {loading && <CircularProgress className={classes.loading} />}
+          {loading && (
+            <Box width={1} display="flex" justifyContent="center" mt={12}>
+              <CircularProgress />
+            </Box>
+          )}
+          {error && (
+            <Box
+              width={1}
+              display="flex"
+              alignItems="center"
+              mt={12}
+              flexDirection="column"
+            >
+              <Alert severity="error" style={{ marginBottom: 5, width: 310 }}>
+                <span>
+                  Unable to load the results
+                  <span
+                    role="img"
+                    aria-label="sad face"
+                    style={{ marginLeft: 10 }}
+                  >
+                    😞
+                  </span>
+                </span>
+              </Alert>
+              <Alert severity="info" style={{ marginBottom: 5, width: 310 }}>
+                Contact joshdcuneo@gmail.com for help
+              </Alert>
+            </Box>
+          )}
           {!loading &&
             normalizedResults &&
             normalizedResults.counts &&
@@ -156,6 +174,7 @@ export default function Results() {
                   >
                     <ResponsivePie
                       onClick={({ id }) =>
+                        id !== "Other" &&
                         setFilter({ question: questionTitle, answer: id })
                       }
                       data={data}
@@ -164,11 +183,6 @@ export default function Results() {
                       padAngle={0.7}
                       cornerRadius={3}
                       colors={{ scheme: "set3" }}
-                      // borderWidth={1}
-                      borderColor={{
-                        from: "color",
-                        modifiers: [["darker", 0.2]],
-                      }}
                       enableRadialLabels={false}
                       slicesLabelsSkipAngle={10}
                       slicesLabelsTextColor="#333333"
@@ -192,6 +206,32 @@ export default function Results() {
                 </Box>
               )
             })}
+          {Boolean(filter) && (
+            <Box className={classes.filterWrapper}>
+              <Alert severity="info" className={classes.alert}>
+                <AlertTitle>Filter</AlertTitle>
+                <div className={classes.alertMessage}>
+                  <span>
+                    <span className={classes.bold}>Q: </span>
+                    {filter.question}
+                  </span>
+                  <span>
+                    <span className={classes.bold}>A: </span>
+                    {filter.answer}
+                  </span>
+                </div>
+              </Alert>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                onClick={() => setFilter(null)}
+                style={{ margin: 0 }}
+              >
+                Clear Filter
+              </Button>
+            </Box>
+          )}
         </Container>
       </JustJesus>
     </Layout>
@@ -290,7 +330,9 @@ function normalize(data) {
         if (field.options.includes(answer)) {
           normalizedData.counts[field.title][answer] =
             normalizedData.counts[field.title][answer] + 1
-        } else {
+        } else if (answer) {
+          const otherCount = normalizedData.counts[field.title]["Other"] || 0
+          normalizedData.counts[field.title]["Other"] = otherCount + 1
           normalizedData.textAnswers[field.title].push(answer)
         }
       })
