@@ -8,5 +8,5 @@ export const prayerFormLink = "https://wpcc.church/forms/prayer"
 // const youtubeBase =
 //   "https://www.youtube.com/embed?listType=playlist&rel=0&autoplay=1&list="
 // export const youtubeLink = youtubeBase +
-export const bibleReading = "bible/111/EXO.13.NIV"
-export const youtubePlaylistId = "PLJbXzmMjnMZIafGEe9GxZ6rWUADYp75vL"
+export const bibleReading = "bible/111/EXO.17.NIV"
+export const youtubePlaylistId = "PLJbXzmMjnMZKVkbqzUGzzXoeEXMqChKgF"
