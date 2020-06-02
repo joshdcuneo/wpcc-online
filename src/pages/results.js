@@ -2,23 +2,26 @@ import React, { useState, useEffect } from "react"
 import Layout from "../components/layout"
 import { Container, Typography } from "@material-ui/core"
 import JustJesus from "../components/content-container"
-// import { Button } from "gatsby-theme-material-ui"
+import { Button } from "gatsby-theme-material-ui"
 import { ResponsivePie } from "@nivo/pie"
 import Box from "@material-ui/core/Box"
-import { useMediaQuery } from "@material-ui/core"
-// import Color from "color"
+import { useMediaQuery, makeStyles } from "@material-ui/core"
+import Alert from "@material-ui/lab/Alert"
 
-// const useStyles = makeStyles(() => ({
-//   button: {
-//     fontSize: "1.1rem",
-//     color: "#fff",
-//     marginTop: "2rem",
-//     marginBottom: "4rem",
-//   },
-//   link: { color: "#fff" },
-// }))
+const useStyles = makeStyles(() => ({
+  button: {
+    fontSize: "1.1rem",
+    color: "#fff",
+    marginTop: "2rem",
+    marginBottom: "4rem",
+  },
+  link: { color: "#fff" },
+}))
 
 function normalize(data) {
+  if (!data) {
+    return null
+  }
   const normalizedData = {
     counts: data.fields.reduce((acc, field) => {
       if (field.type !== "choices") return acc
@@ -57,25 +60,50 @@ function normalize(data) {
   return normalizedData
 }
 
+function filterResults(data, filter) {
+  if (!data) {
+    return null
+  }
+  if (!filter) {
+    return data
+  }
+  const { fields, submissions } = data
+  const field = fields.find(({ title }) => title === filter.question)
+  return {
+    fields: data.fields,
+    submissions: submissions.filter(submission => {
+      const answer = submission.data[field.key]
+      if (typeof answer === "string") {
+        return filter.answer === answer
+      }
+      if (Array.isArray(answer)) {
+        return answer.includes(filter.answer)
+      }
+      return false
+    }),
+  }
+}
+
 export default function Results() {
   const [results, setResults] = useState(null)
   const [filter, setFilter] = useState(null)
   const [loading, setLoading] = useState(false)
-
+  const filteredResults = filterResults(results, filter)
+  const normalizedResults = normalize(filteredResults)
   useEffect(() => {
     if (!results && !loading) {
       setLoading(true)
       fetch("/.netlify/functions/paperform-submissions")
         .then(res => res.json())
         .then(data => {
-          setResults(normalize(data))
+          setResults(data)
           setLoading(false)
         })
     }
   }, [loading, results])
 
   const isSmallScreen = useMediaQuery("(max-width: 600px)")
-  // const classes = useStyles()
+  const classes = useStyles()
   // const baseColor = Color("#225b8b")
   // const colors = [
   //   baseColor.darken(0.75),
@@ -91,29 +119,68 @@ export default function Results() {
   return (
     <Layout>
       <JustJesus>
-        <Container maxWidth="md" style={{ textAlign: "center" }}>
+        <Container
+          maxWidth="md"
+          style={{ textAlign: "center", position: "relative" }}
+        >
           <Typography variant="h2">Connection Survey</Typography>
-          <Typography variant="body1" gutterBottom>
+          <Typography variant="body1">
             Check out the connection survey results summary below.
           </Typography>
-          {/* <Typography
+          {Boolean(filter) && (
+            <Box
+              style={{
+                position: "fixed",
+                bottom: 20,
+                right: 20,
+                display: "flex",
+                zIndex: 100,
+              }}
+            >
+              <Alert
+                severity="info"
+                style={{
+                  width: "max-content",
+                  height: "100%",
+                  marginRight: 5,
+                  display: "flex",
+                }}
+              >
+                <span>
+                  {" "}
+                  {filter.question}{" "}
+                  <span style={{ fontWeight: "bold" }}>is</span> {filter.answer}
+                </span>
+              </Alert>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                onClick={() => setFilter(null)}
+                style={{ margin: 0 }}
+              >
+                Clear Filter
+              </Button>
+            </Box>
+          )}
+          <Typography
             variant="body1"
             gutterBottom
             style={{ marginBottom: "6rem" }}
           >
             You can click on any category in a graph to filter the response data
             by that category.
-          </Typography> */}
+          </Typography>
           {!loading &&
-            results &&
-            results.counts &&
-            Object.keys(results.counts).map(questionTitle => {
-              const data = Object.keys(results.counts[questionTitle]).map(
-                key => ({
-                  id: isSmallScreen ? shortenLabel(key) : key,
-                  value: results.counts[questionTitle][key],
-                })
-              )
+            normalizedResults &&
+            normalizedResults.counts &&
+            Object.keys(normalizedResults.counts).map(questionTitle => {
+              let data = Object.keys(
+                normalizedResults.counts[questionTitle]
+              ).map(key => ({
+                id: isSmallScreen ? shortenLabel(key) : key,
+                value: normalizedResults.counts[questionTitle][key],
+              }))
               const hasLongLabel = checkHasLongLabel(data)
               const anchor = getAnchor({ isSmallScreen, hasLongLabel })
               return (
@@ -131,6 +198,9 @@ export default function Results() {
                     }}
                   >
                     <ResponsivePie
+                      onClick={({ id }) =>
+                        setFilter({ question: questionTitle, answer: id })
+                      }
                       data={data}
                       margin={getMargin({ questionTitle, isSmallScreen, data })}
                       innerRadius={0.5}
@@ -165,14 +235,6 @@ export default function Results() {
                 </Box>
               )
             })}
-          {/* <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            onClick={console.log}
-          >
-            Clear Filters
-          </Button> */}
         </Container>
       </JustJesus>
     </Layout>
