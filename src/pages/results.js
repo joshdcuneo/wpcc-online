@@ -91,8 +91,8 @@ export default function Results() {
   return (
     <Layout>
       <JustJesus>
-        <Container maxWidth="md">
-          <Typography variant="h3">Connection Survey</Typography>
+        <Container maxWidth="md" style={{ textAlign: "center" }}>
+          <Typography variant="h2">Connection Survey</Typography>
           <Typography variant="body1" gutterBottom>
             Check out the connection survey results summary below.
           </Typography>
@@ -114,7 +114,8 @@ export default function Results() {
                   value: results.counts[questionTitle][key],
                 })
               )
-
+              const hasLongLabel = checkHasLongLabel(data)
+              const anchor = getAnchor({ isSmallScreen, hasLongLabel })
               return (
                 <Box key={questionTitle}>
                   <Typography
@@ -123,7 +124,12 @@ export default function Results() {
                   >
                     {questionTitle}
                   </Typography>
-                  <Box style={{ height: "40vh", width: "100%" }}>
+                  <Box
+                    style={{
+                      height: anchor === "bottom" ? "54vh" : "40vh",
+                      width: "100%",
+                    }}
+                  >
                     <ResponsivePie
                       data={data}
                       margin={getMargin({ questionTitle, isSmallScreen, data })}
