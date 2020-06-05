@@ -45,7 +45,7 @@
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "start": "netlify  dev",
-    "deploy": "yarn build && netlify deploy --prod",
+    "deploy": "yarn build && git add -A && git commit -m 'deploy' && git push && netlify deploy --prod",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "postinstall": "netlify-lambda install",
