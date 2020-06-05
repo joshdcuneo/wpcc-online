@@ -293,9 +293,9 @@ function shortenLabel(label) {
     case "Roster 2-3 House Churches to meet in “Church” each week (once singing is allowed)":
       return "2-3 House Churches at church (sing)"
     case "4-5 services in Church on a Sunday (without singing)":
-      return "4-5 House Churches at church (no sing)"
+      return "4-5 services at church (no sing)"
     case "4-5 services in Church on a Sunday (once singing is allowed)":
-      return "4-5 House Churches at church (sing)"
+      return "4-5 services at church (sing)"
     case "Wait till all restrictions are lifted (including singing)":
       return "Wait till no restrictions"
     default:
